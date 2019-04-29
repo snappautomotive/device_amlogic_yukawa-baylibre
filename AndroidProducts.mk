@@ -18,4 +18,5 @@ PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/yukawa.mk
 
 COMMON_LUNCH_CHOICES := \
-    yukawa-userdebug
+    yukawa-userdebug \
+    yukawa-eng
