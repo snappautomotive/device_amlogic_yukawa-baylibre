@@ -1,0 +1,3 @@
+[submodule "gpu"]
+	path = gpu
+	url = git@gitlab.com:baylibre/amlogic/atv/amlogic-android-libmali.git
