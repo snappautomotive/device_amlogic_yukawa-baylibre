@@ -1,3 +1,6 @@
 [submodule "gpu"]
 	path = gpu
 	url = git@gitlab.com:baylibre/amlogic/atv/amlogic-android-libmali.git
+[submodule "gralloc"]
+	path = gralloc
+	url = git@gitlab.com:baylibre/amlogic/atv/arm-mali-gralloc.git
