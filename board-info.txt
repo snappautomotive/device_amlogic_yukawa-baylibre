@@ -1,2 +1,2 @@
 require board=sei510
-require version-bootloader=U-Boot 2019.04-00062-g0ecef29df5
+require version-bootloader=U-Boot 2019.04-00064-g7c37acbba4
