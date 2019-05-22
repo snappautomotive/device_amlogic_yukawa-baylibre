@@ -94,7 +94,6 @@ PRODUCT_PACKAGES += \
 # Hardware Composer HAL
 #
 PRODUCT_PACKAGES += \
-    hwcomposer.drm_meson \
     android.hardware.drm@1.0-impl \
     android.hardware.drm@1.0-service \
 
