@@ -33,8 +33,8 @@
     </hal>
     <hal format="hidl">
         <name>android.hardware.soundtrigger</name>
-        <transport arch="32">passthrough</transport>
-        <version>2.0</version>
+        <transport>hwbinder</transport>
+        <version>2.1</version>
         <interface>
             <name>ISoundTriggerHw</name>
             <instance>default</instance>
