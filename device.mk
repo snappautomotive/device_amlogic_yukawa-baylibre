@@ -1,5 +1,18 @@
-LOCAL_KERNEL := device/amlogic/yukawa-kernel/Image
-PRODUCT_COPY_FILES += $(LOCAL_KERNEL):kernel
+
+ifeq ($(TARGET_PREBUILT_KERNEL),)
+LOCAL_KERNEL := device/amlogic/yukawa-kernel/Image.lz4
+else
+LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
+endif
+
+ifeq ($(TARGET_PREBUILT_DTB),)
+LOCAL_DTB := device/amlogic/yukawa-kernel/meson-g12a-sei510.dtb
+else
+LOCAL_DTB := $(TARGET_PREBUILT_DTB)
+endif
+
+PRODUCT_COPY_FILES +=  $(LOCAL_KERNEL):kernel \
+                       $(LOCAL_DTB):meson-g12a-sei510.dtb \
 
 # Build and run only ART
 PRODUCT_RUNTIMES := runtime_libart_default
@@ -12,14 +25,8 @@ PRODUCT_AAPT_PREF_CONFIG := tvdpi
 PRODUCT_IS_ATV := true
 DEVICE_PACKAGE_OVERLAYS += device/amlogic/yukawa/overlay
 
-PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/platform/ffe07000.emmc/by-name/system
-PRODUCT_VENDOR_VERITY_PARTITION := /dev/block/platform/ffe07000.emmc/by-name/vendor
-$(call inherit-product, build/target/product/verity.mk)
-PRODUCT_SUPPORTS_BOOT_SIGNER := false
-
 PRODUCT_PACKAGES += \
     android.hardware.health@2.0-service.yukawa
-
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/fstab.yukawa:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.yukawa \
@@ -92,12 +99,12 @@ PRODUCT_COPY_FILES += \
     kernel/linux-firmware/meson/vdec/gxl_mjpeg.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/gxl_mjpeg.bin \
 
 PRODUCT_PACKAGES += \
-    android.hardware.audio@2.0-service \
-    android.hardware.audio@2.0-impl \
-    android.hardware.audio.effect@2.0-impl \
+    android.hardware.audio@4.0-impl \
+    android.hardware.audio.effect@4.0-impl \
     android.hardware.broadcastradio@1.0-impl \
-    android.hardware.soundtrigger@2.0-impl \
-
+    android.hardware.soundtrigger@2.1-impl \
+    android.hardware.bluetooth.audio@2.0-impl \
+    android.hardware.audio@2.0-service
 # Hardware Composer HAL
 #
 PRODUCT_PACKAGES += \
