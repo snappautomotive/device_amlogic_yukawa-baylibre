@@ -38,7 +38,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
     $(LOCAL_PATH)/bt-wifi-firmware/BCM.hcd:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/BCM4359C0.hcd \
     $(LOCAL_PATH)/bt-wifi-firmware/fw_bcm4359c0_ag.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/fw_bcm4359c0_ag.bin \
-    $(LOCAL_PATH)/bt-wifi-firmware/nvram.txt:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/nvram.txt 
+    $(LOCAL_PATH)/bt-wifi-firmware/nvram.txt:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/nvram.txt \
 
 # TV Specific Packages
 PRODUCT_PACKAGES += \
@@ -59,7 +59,7 @@ PRODUCT_PACKAGES +=  libGLES_android
 PRODUCT_COPY_FILES +=	\
 		frameworks/native/data/etc/android.hardware.vulkan.version-1_1.xml:vendor/etc/permissions/android.hardware.vulkan.version.xml \
 		frameworks/native/data/etc/android.hardware.vulkan.compute-0.xml:vendor/etc/permissions/android.hardware.vulkan.compute.xml \
-		frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:vendor/etc/permissions/android.hardware.vulkan.level.xml
+		frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:vendor/etc/permissions/android.hardware.vulkan.level.xml \
 
 PRODUCT_PACKAGES +=  vulkan.yukawa.so 
 #To keep healthd in the build
@@ -111,6 +111,18 @@ PRODUCT_PACKAGES += \
     hwcomposer.drm_meson \
     android.hardware.drm@1.0-impl \
     android.hardware.drm@1.0-service \
+
+# CEC
+PRODUCT_PACKAGES += \
+    android.hardware.tv.cec@1.0-impl \
+    android.hardware.tv.cec@1.0-service \
+    hdmi_cec.yukawa
+
+PRODUCT_PROPERTY_OVERRIDES += ro.hdmi.device_type=4
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl \
+    frameworks/native/data/etc/android.hardware.hdmi.cec.xml:system/etc/permissions/android.hardware.hdmi.cec.xml
 
 # Memtrack
 PRODUCT_PACKAGES += memtrack.default \
