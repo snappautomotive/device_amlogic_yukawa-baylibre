@@ -25,6 +25,29 @@ PRODUCT_AAPT_PREF_CONFIG := tvdpi
 PRODUCT_IS_ATV := true
 DEVICE_PACKAGE_OVERLAYS += device/amlogic/yukawa/overlay
 
+PRODUCT_SOONG_NAMESPACES += \
+    external/v4l2_codec2 \
+    device/amlogic/yukawa/codec2 \
+    device/amlogic/yukawa \
+    hardware/google/av \
+    hardware/google/interfaces \
+    device/google/codec2
+
+# Enable Codec2.0
+PRODUCT_PACKAGES += \
+    hardware.google.media.c2@1.0-service-arc \
+    libmedia_codecserviceregistrant \
+    libstagefright_ccodec \
+    libstagefright_ccodec_ext \
+    libv4l2_codec2 \
+    libv4l2_codec2_vda
+
+# Codec2.0
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/media_codecs_c2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_c2.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_c2_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_audio.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_c2_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_video.xml
+
 PRODUCT_PACKAGES += \
     android.hardware.health@2.0-service.yukawa
 
