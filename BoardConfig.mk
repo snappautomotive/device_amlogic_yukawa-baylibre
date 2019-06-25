@@ -20,8 +20,15 @@ TARGET_SUPPORTS_64_BIT_APPS := true
 
 TARGET_BOARD_PLATFORM := yukawa
 
+# Vulkan
+BOARD_INSTALL_VULKAN := true
 # BT configs
-BOARD_HAVE_BLUETOOTH := false
+BOARD_HAVE_BLUETOOTH := true
+
+# generic wifi
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_HOSTAPD_DRIVER := NL80211
 
 # disable Treble
 PRODUCT_FULL_TREBLE_OVERRIDE := false
@@ -57,7 +64,11 @@ BOARD_KERNEL_CMDLINE += root=PARTUUID=99f9b7ac-5207-11e9-8507-c3c037e393f3
 BOARD_KERNEL_CMDLINE += no_console_suspend console=ttyAML0,115200 earlycon
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive printk.devkmsg=on
 BOARD_KERNEL_CMDLINE += skip_initramfs init=/init
-
+BOARD_KERNEL_CMDLINE += firmware_class.path=/vendor/firmware
+BOARD_KERNEL_CMDLINE += androidboot.hardware=yukawa
+ifeq ($(TARGET_BUILTIN_EDID), true)
+BOARD_KERNEL_CMDLINE += drm_kms_helper.edid_firmware=edid/1920x1080.bin
+endif
 
 USE_E2FSPROGS := true
 

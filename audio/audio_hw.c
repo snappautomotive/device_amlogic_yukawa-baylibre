@@ -40,11 +40,13 @@
 #include <hardware/audio_effect.h>
 #include <hardware/audio_alsaops.h>
 #include <audio_effects/effect_aec.h>
+#include <audio_route/audio_route.h>
 
 #include <sys/ioctl.h>
 
 #define CARD_OUT 0
-#define PORT_CODEC 0
+#define PORT_HDMI 0
+#define MIXER_XML_PATH "/vendor/etc/mixer_paths.xml"
 /* Minimum granularity - Arbitrary but small value */
 #define CODEC_BASE_FRAME_COUNT 32
 
@@ -71,6 +73,9 @@ struct alsa_audio_device {
     int devices;
     struct alsa_stream_in *active_input;
     struct alsa_stream_out *active_output;
+    struct audio_route *audio_route;
+    struct mixer *mixer;
+
     bool mic_mute;
 };
 
@@ -102,7 +107,7 @@ static int start_output_stream(struct alsa_stream_out *out)
     out->config.start_threshold = PLAYBACK_PERIOD_START_THRESHOLD * PERIOD_SIZE;
     out->config.avail_min = PERIOD_SIZE;
 
-    out->pcm = pcm_open(CARD_OUT, PORT_CODEC, PCM_OUT | PCM_MMAP | PCM_NOIRQ | PCM_MONOTONIC, &out->config);
+    out->pcm = pcm_open(CARD_OUT, PORT_HDMI, PCM_OUT, &out->config);
 
     if (!pcm_is_ready(out->pcm)) {
         ALOGE("cannot open pcm_out driver: %s", pcm_get_error(out->pcm));
@@ -267,7 +272,7 @@ static ssize_t out_write(struct audio_stream_out *stream, const void* buffer,
     pthread_mutex_unlock(&adev->lock);
 
 
-    ret = pcm_mmap_write(out->pcm, buffer, out_frames * frame_size);
+    ret = pcm_write(out->pcm, buffer, out_frames * frame_size);
     if (ret == 0) {
         out->written += out_frames;
     }
@@ -435,7 +440,7 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
     struct pcm_params *params;
     int ret = 0;
 
-    params = pcm_params_get(CARD_OUT, PORT_CODEC, PCM_OUT);
+    params = pcm_params_get(CARD_OUT, PORT_HDMI, PCM_OUT);
     if (!params)
         return -ENOSYS;
 
@@ -674,6 +679,19 @@ static int adev_open(const hw_module_t* module, const char* name,
     adev->devices = AUDIO_DEVICE_NONE;
 
     *device = &adev->hw_device.common;
+
+    adev->mixer = mixer_open(CARD_OUT);
+
+    if (!adev->mixer) {
+        ALOGE("Unable to open the mixer, aborting.");
+        return -EINVAL;
+    }
+
+    adev->audio_route = audio_route_init(CARD_OUT, MIXER_XML_PATH);
+    if (!adev->audio_route) {
+        ALOGE("%s: Failed to init audio route controls, aborting.", __func__);
+        return -EINVAL;
+    }
 
     return 0;
 }
