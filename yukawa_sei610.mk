@@ -2,6 +2,6 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, device/amlogic/yukawa/yukawa-common.mk)
 
-PRODUCT_NAME := yukawa
-PRODUCT_DEVICE := yukawa
-BOARD_KERNEL_DTB := device/amlogic/yukawa-kernel/meson-g12a-sei510.dtb
+PRODUCT_NAME := yukawa_sei610
+PRODUCT_DEVICE := yukawa_sei610
+BOARD_KERNEL_DTB := device/amlogic/yukawa-kernel/meson-sm1-sei610.dtb

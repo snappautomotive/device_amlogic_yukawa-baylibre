@@ -1,0 +1,2 @@
+require board=sei610
+require version-bootloader=U-Boot 2019.10-rc2-00011-ga7a8b44565

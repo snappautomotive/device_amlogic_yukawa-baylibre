@@ -16,7 +16,9 @@
 
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/yukawa.mk \
+    $(LOCAL_DIR)/yukawa_sei610.mk \
     $(LOCAL_DIR)/yukawa32.mk
 
 COMMON_LUNCH_CHOICES := \
+    yukawa_sei610-userdebug \
     yukawa-userdebug
