@@ -198,6 +198,7 @@ static uint64_t determine_best_format(int req_format, mali_gralloc_producer_type
 			if (gpu_mask & MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_SPLITBLK &&
 			    dpu_mask & MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_SPLITBLK)
 			{
+				internal_format |= MALI_GRALLOC_INTFMT_AFBC_BASIC;
 				internal_format |= MALI_GRALLOC_INTFMT_AFBC_SPLITBLK;
 			}
 			else if (gpu_mask & MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_BASIC &&
