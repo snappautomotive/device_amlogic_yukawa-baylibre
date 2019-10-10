@@ -212,6 +212,12 @@ static uint64_t determine_best_format(int req_format, mali_gralloc_producer_type
 					internal_format |= MALI_GRALLOC_INTFMT_AFBC_TILED_HEADERS;
 				}
 			}
+
+			if (gpu_mask & MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_WIDEBLK &&
+			    dpu_mask & MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_WIDEBLK)
+			{
+				internal_format |= MALI_GRALLOC_INTFMT_AFBC_WIDEBLK;
+			}
 		}
 		else if (consumer == MALI_GRALLOC_CONSUMER_GPU_EXCL)
 		{
