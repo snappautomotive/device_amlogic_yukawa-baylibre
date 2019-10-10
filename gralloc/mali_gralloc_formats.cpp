@@ -20,6 +20,7 @@
 #include <dlfcn.h>
 #include <inttypes.h>
 #include <log/log.h>
+#include <cutils/properties.h>
 
 #if GRALLOC_USE_GRALLOC1_API == 1
 #include <hardware/gralloc1.h>
@@ -529,6 +530,15 @@ static void determine_format_capabilities()
 		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_SPLITBLK;
 #endif
 #endif
+	}
+
+	/* Determine DPU format capabilities from properties */
+	if (property_get_bool("ro.gralloc.afbc.enable", 0))
+	{
+		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_OPTIONS_PRESENT;
+		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_BASIC;
+		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_SPLITBLK;
+		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_WIDEBLK;
 	}
 
 	/* Determine GPU format capabilities */
