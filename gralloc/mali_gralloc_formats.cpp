@@ -198,6 +198,7 @@ static uint64_t determine_best_format(int req_format, mali_gralloc_producer_type
 			if (gpu_mask & MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_SPLITBLK &&
 			    dpu_mask & MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_SPLITBLK)
 			{
+				internal_format |= MALI_GRALLOC_INTFMT_AFBC_BASIC;
 				internal_format |= MALI_GRALLOC_INTFMT_AFBC_SPLITBLK;
 			}
 			else if (gpu_mask & MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_BASIC &&
@@ -210,6 +211,12 @@ static uint64_t determine_best_format(int req_format, mali_gralloc_producer_type
 				{
 					internal_format |= MALI_GRALLOC_INTFMT_AFBC_TILED_HEADERS;
 				}
+			}
+
+			if (gpu_mask & MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_WIDEBLK &&
+			    dpu_mask & MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_WIDEBLK)
+			{
+				internal_format |= MALI_GRALLOC_INTFMT_AFBC_WIDEBLK;
 			}
 		}
 		else if (consumer == MALI_GRALLOC_CONSUMER_GPU_EXCL)
@@ -522,6 +529,10 @@ static void determine_format_capabilities()
 		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_SPLITBLK;
 #endif
 #endif
+		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_OPTIONS_PRESENT;
+		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_BASIC;
+		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_SPLITBLK;
+		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_WIDEBLK;
 	}
 
 	/* Determine GPU format capabilities */
