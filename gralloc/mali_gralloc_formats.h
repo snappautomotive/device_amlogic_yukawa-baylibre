@@ -109,13 +109,11 @@ typedef enum
 /* This format uses AFBC split block mode */
 #define MALI_GRALLOC_INTFMT_AFBC_SPLITBLK (1ULL << (MALI_GRALLOC_INTFMT_ME_EXTENSION_BIT_START + 1))
 
-#define MALI_GRALLOC_INTFMT_UNUSED (1ULL << (MALI_GRALLOC_INTFMT_ME_EXTENSION_BIT_START + 2))
-
 /* This format uses AFBC wide block mode */
-#define MALI_GRALLOC_INTFMT_AFBC_WIDEBLK (1ULL << (MALI_GRALLOC_INTFMT_ME_EXTENSION_BIT_START + 3))
+#define MALI_GRALLOC_INTFMT_AFBC_WIDEBLK (1ULL << (MALI_GRALLOC_INTFMT_ME_EXTENSION_BIT_START + 2))
 
 /* Regular Modifier Bits */
-#define MALI_GRALLOC_INTFMT_AFBC_TILED_HEADERS (1ULL << (MALI_GRALLOC_INTFMT_EXTENSION_BIT_START + 0))
+#define MALI_GRALLOC_INTFMT_AFBC_TILED_HEADERS (1ULL << (MALI_GRALLOC_INTFMT_ME_EXTENSION_BIT_START + 3))
 
 /* This mask should be used to check or clear support for AFBC for an internal format
  * These bits are mutually exclusive so this mask should not be used to enable support
