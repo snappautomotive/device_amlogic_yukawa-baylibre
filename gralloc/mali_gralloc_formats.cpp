@@ -675,6 +675,15 @@ uint64_t mali_gralloc_select_format(uint64_t req_format, mali_gralloc_format_typ
 		producer_runtime_mask &= ~MALI_GRALLOC_FORMAT_CAPABILITY_AFBCENABLE_MASK;
 	}
 
+	/* Add limitation on formats */
+	switch (req_format_mapped) {
+	case MALI_GRALLOC_FORMAT_INTERNAL_RGB_565:
+		/* RGB565 doesn't support SPLIT mode when WIDEBLK is used */
+		if (consumer_runtime_mask & MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_WIDEBLK)
+			consumer_runtime_mask &= ~MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_SPLITBLK;
+		break;
+	}
+
 	/* Automatically select format in case producer/consumer identified */
 	internal_format =
 	    determine_best_format(req_format_mapped, producer, consumer, producer_runtime_mask, consumer_runtime_mask);
