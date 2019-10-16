@@ -146,7 +146,7 @@ LOCAL_CFLAGS += -DGRALLOC_FB_SWAP_RED_BLUE=$(GRALLOC_FB_SWAP_RED_BLUE)
 LOCAL_CFLAGS += -DGRALLOC_ARM_NO_EXTERNAL_AFBC=$(GRALLOC_ARM_NO_EXTERNAL_AFBC)
 LOCAL_CFLAGS += -DGRALLOC_LIBRARY_BUILD=1
 
-LOCAL_SHARED_LIBRARIES := libhardware liblog libcutils libGLESv1_CM libion libsync libutils
+LOCAL_SHARED_LIBRARIES := libhardware liblog libcutils libGLESv1_CM libion libsync libutils libdrm
 
 LOCAL_PRELINK_MODULE := false
 LOCAL_MODULE_RELATIVE_PATH := hw
@@ -168,7 +168,8 @@ LOCAL_SRC_FILES := \
 	mali_gralloc_ion.cpp \
 	mali_gralloc_formats.cpp \
 	mali_gralloc_reference.cpp \
-	mali_gralloc_debug.cpp
+	mali_gralloc_debug.cpp \
+	mali_gralloc_drm.cpp
 
 ifeq ($(GRALLOC_USE_GRALLOC1_API), 1)
 LOCAL_SRC_FILES += \

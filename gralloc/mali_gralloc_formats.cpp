@@ -29,6 +29,7 @@
 #endif
 
 #include "mali_gralloc_module.h"
+#include "mali_gralloc_drm.h"
 #include "gralloc_priv.h"
 
 static mali_gralloc_format_caps dpu_runtime_caps;
@@ -532,13 +533,12 @@ static void determine_format_capabilities()
 #endif
 	}
 
-	/* Determine DPU format capabilities from properties */
-	if (property_get_bool("ro.gralloc.afbc.enable", 0))
+	/* Determine DPU format capabilities from DRM Card properties */
+	uint64_t drm_caps;
+	if (gralloc_get_drm_dpu_capabilities(&drm_caps))
 	{
-		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_OPTIONS_PRESENT;
-		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_BASIC;
-		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_SPLITBLK;
-		dpu_runtime_caps.caps_mask |= MALI_GRALLOC_FORMAT_CAPABILITY_AFBC_WIDEBLK;
+		ALOGD("DPU DRM Capabilities: 0x%" PRIx64, drm_caps);
+		dpu_runtime_caps.caps_mask |= drm_caps;
 	}
 
 	/* Determine GPU format capabilities */
