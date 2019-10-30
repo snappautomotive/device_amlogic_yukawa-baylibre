@@ -1,0 +1,2 @@
+include:
+  - remote: 'http://build3.baylibre.com/ci/master/gitlab-ci-template.yml'
