@@ -47,6 +47,37 @@
 #include "audio_hw.h"
 #include "audio_aec.h"
 
+
+static void timestamp_adjust(struct timespec *ts, size_t frames, uint32_t sampling_rate) {
+    /* This function assumes the adjustment (in nsec) is less than the max value of long,
+     * which for 32-bit long this is 2^31 * 1e-9 seconds, slightly over 2 seconds.
+     * For 64-bit long it is  9e+9 seconds. */
+    long adj_nsec = (frames / (float) sampling_rate) * 1E9L;
+    ts->tv_nsec += adj_nsec;
+    while (ts->tv_nsec > 1E9L) {
+        ts->tv_sec++;
+        ts->tv_nsec -= 1E9L;
+    }
+}
+
+/* Helper function to get PCM hardware timestamp.
+ * Only the field 'timestamp' of argument 'ts' is updated. */
+static int get_pcm_timestamp(struct pcm *pcm, uint32_t sample_rate,
+                                struct aec_info *info) {
+    int ret = 0;
+    if (pcm_get_htimestamp(pcm, &info->available, &info->timestamp) < 0) {
+        ALOGE("Error getting PCM timestamp!");
+        info->timestamp.tv_sec = 0;
+        info->timestamp.tv_nsec = 0;
+        return -EINVAL;
+    }
+    timestamp_adjust(
+        &info->timestamp,
+        pcm_get_buffer_size(pcm) - info->available,
+        sample_rate);
+    return ret;
+}
+
 /* must be called with hw device and output stream mutexes locked */
 static int start_output_stream(struct alsa_stream_out *out)
 {
@@ -62,7 +93,7 @@ static int start_output_stream(struct alsa_stream_out *out)
     unsigned int pcm_retry_count = PCM_OPEN_RETRIES;
 
     while (1) {
-        out->pcm = pcm_open(CARD_OUT, PORT_HDMI, PCM_OUT, &out->config);
+        out->pcm = pcm_open(CARD_OUT, PORT_HDMI, PCM_OUT | PCM_MONOTONIC, &out->config);
         if ((out->pcm != NULL) && pcm_is_ready(out->pcm)) {
             break;
         } else {
@@ -240,8 +271,10 @@ static ssize_t out_write(struct audio_stream_out *stream, const void* buffer,
     if (ret == 0) {
         out->written += out_frames;
 
-        int aec_ret = write_to_reference_fifo(adev->aec, out, (void *)buffer,
-                                                out_frames * frame_size);
+        struct aec_info info;
+        get_pcm_timestamp(out->pcm, out->config.rate, &info);
+        info.bytes = out_frames * frame_size;
+        int aec_ret = write_to_reference_fifo(adev->aec, (void *)buffer, &info);
         if (aec_ret) {
             ALOGE("AEC: Write to speaker loopback FIFO failed!");
         }
@@ -318,7 +351,7 @@ static int start_input_stream(struct alsa_stream_in *in)
     unsigned int pcm_retry_count = PCM_OPEN_RETRIES;
 
     while (1) {
-        in->pcm = pcm_open(CARD_IN, PORT_BUILTIN_MIC, PCM_IN, &in->config);
+        in->pcm = pcm_open(CARD_IN, PORT_BUILTIN_MIC, PCM_IN | PCM_MONOTONIC, &in->config);
         if ((in->pcm != NULL) && pcm_is_ready(in->pcm)) {
             break;
         } else {
@@ -489,7 +522,10 @@ exit:
         /* Process AEC if available */
         /* TODO move to a separate thread */
         if (!adev->mic_mute) {
-            int aec_ret = process_aec(adev->aec, in, buffer, bytes);
+            struct aec_info info;
+            get_pcm_timestamp(in->pcm, in->config.rate, &info);
+            info.bytes = bytes;
+            int aec_ret = process_aec(adev->aec, buffer, &info);
             if (aec_ret) {
                 ALOGE("process_aec returned error code %d", aec_ret);
             }
@@ -618,6 +654,29 @@ static char * adev_get_parameters(const struct audio_hw_device *dev,
 {
     ALOGV("adev_get_parameters");
     return strdup("");
+}
+
+static void set_mic_characteristics(struct audio_microphone_characteristic_t* mic_data) {
+    strcpy(mic_data->device_id, "builtin_mic");
+    strcpy(mic_data->address, "top");
+    mic_data->sensitivity = -37.0;
+    mic_data->max_spl = AUDIO_MICROPHONE_SPL_UNKNOWN;
+    mic_data->min_spl = AUDIO_MICROPHONE_SPL_UNKNOWN;
+    mic_data->orientation.x = 0.0f;
+    mic_data->orientation.y = 0.0f;
+    mic_data->orientation.z = 0.0f;
+    mic_data->geometric_location.x = AUDIO_MICROPHONE_COORDINATE_UNKNOWN;
+    mic_data->geometric_location.y = AUDIO_MICROPHONE_COORDINATE_UNKNOWN;
+    mic_data->geometric_location.z = AUDIO_MICROPHONE_COORDINATE_UNKNOWN;
+}
+
+static int adev_get_microphones(const struct audio_hw_device* dev,
+                                struct audio_microphone_characteristic_t* mic_array,
+                                size_t* mic_count) {
+    ALOGV("adev_get_microphones");
+    set_mic_characteristics(mic_array);
+    *mic_count = 1;
+    return 0;
 }
 
 static int adev_init_check(const struct audio_hw_device *dev)
@@ -828,6 +887,7 @@ static int adev_open(const hw_module_t* module, const char* name,
     adev->hw_device.open_input_stream = adev_open_input_stream;
     adev->hw_device.close_input_stream = adev_close_input_stream;
     adev->hw_device.dump = adev_dump;
+    adev->hw_device.get_microphones = adev_get_microphones;
 
     adev->devices = AUDIO_DEVICE_NONE;
 
