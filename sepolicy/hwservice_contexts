@@ -1,0 +1,2 @@
+hardware.google.media.c2::IConfigurable                         u:object_r:hal_codec2_hwservice:s0
+hardware.google.media.c2::IComponentStore                       u:object_r:hal_codec2_hwservice:s0

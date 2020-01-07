@@ -1,4 +1,6 @@
 PRODUCT_SOONG_NAMESPACES += device/amlogic/yukawa
+PRODUCT_SOONG_NAMESPACES += external/v4l2_codec2 \
+    device/google/codec2
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 LOCAL_KERNEL := device/amlogic/yukawa-kernel/Image.lz4
@@ -73,7 +75,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.vulkan.compute-0.xml:vendor/etc/permissions/android.hardware.vulkan.compute.xml \
     frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:vendor/etc/permissions/android.hardware.vulkan.level.xml
 
-PRODUCT_PACKAGES +=  vulkan.yukawa.so 
+PRODUCT_PACKAGES +=  vulkan.yukawa.so
 
 # Bluetooth
 PRODUCT_PACKAGES += android.hardware.bluetooth@1.1-service.btlinux
@@ -104,6 +106,20 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/video_firmware/gxl_mpeg4_5.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/gxl_mpeg4_5.bin \
     $(LOCAL_PATH)/video_firmware/gxl_mpeg12.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/gxl_mpeg12.bin \
     $(LOCAL_PATH)/video_firmware/gxl_mjpeg.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/gxl_mjpeg.bin
+
+PRODUCT_PACKAGES += \
+    libv4l2_codec2 \
+    libv4l2_codec2_vda \
+    libvda_c2componentstore \
+    libstagefright_ccodec \
+    libstagefright_ccodec_ext \
+    hardware.google.media.c2@1.0-service-arc \
+
+# Codec2.0
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/media_codecs_c2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_c2.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_c2_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_audio.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_c2_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_video.xml
 
 PRODUCT_PACKAGES += \
     android.hardware.audio@2.0-service \
@@ -143,6 +159,7 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator@2.0-service \
     android.hardware.graphics.allocator@2.0-impl \
     android.hardware.graphics.mapper@2.0-impl
+
 
 # PowerHAL
 PRODUCT_PACKAGES += \
