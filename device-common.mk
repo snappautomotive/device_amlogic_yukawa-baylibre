@@ -23,7 +23,7 @@ PRODUCT_IS_ATV := true
 DEVICE_PACKAGE_OVERLAYS := device/amlogic/yukawa/overlay
 DEVICE_PACKAGE_OVERLAYS += device/google/atv/overlay
 
-PRODUCT_PACKAGES += llkd
+PRODUCT_PACKAGES += llkd dtc
 
 ifeq ($(TARGET_USE_AB_SLOT), true)
 # A/B support
@@ -141,7 +141,6 @@ PRODUCT_PACKAGES += \
     TVRecommendationsNoGms
 endif
 
-PRODUCT_PACKAGES += llkd
 PRODUCT_PACKAGES += \
     libhidltransport \
     libhwbinder 
