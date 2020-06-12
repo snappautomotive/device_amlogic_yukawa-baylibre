@@ -247,7 +247,9 @@ PRODUCT_PACKAGES += \
 
 # Software Gatekeeper HAL
 PRODUCT_PACKAGES += \
-    android.hardware.gatekeeper@1.0-service.software
+    android.hardware.gatekeeper@1.0-impl \
+    android.hardware.gatekeeper@1.0-service \
+	gatekeeper.yukawa
 
 PRODUCT_PACKAGES += \
     android.hardware.keymaster@3.0-impl \
