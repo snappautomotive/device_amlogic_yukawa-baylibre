@@ -361,6 +361,3 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.light-service \
     lights-yukawa
-
-# Include Virtualization APEX
-$(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk)
