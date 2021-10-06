@@ -11,6 +11,9 @@ PRODUCT_COPY_FILES +=  $(LOCAL_KERNEL):kernel
 # Build and run only ART
 PRODUCT_RUNTIMES := runtime_libart_default
 
+# Select GPU drivers
+$(call inherit-product, device/amlogic/yukawa/gpu-select.mk)
+
 # Enable updating of APEXes
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
@@ -174,17 +177,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PROPERTY_OVERRIDES += ro.sf.lcd_density=320
 
-PRODUCT_PACKAGES +=  libGLES_mali
-PRODUCT_PACKAGES +=  libGLES_android
-
-# Vulkan
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.vulkan.version-1_1.xml:vendor/etc/permissions/android.hardware.vulkan.version.xml \
-    frameworks/native/data/etc/android.hardware.vulkan.compute-0.xml:vendor/etc/permissions/android.hardware.vulkan.compute.xml \
-    frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:vendor/etc/permissions/android.hardware.vulkan.level.xml
-
-PRODUCT_PACKAGES +=  vulkan.yukawa.so
-
 # Bluetooth
 PRODUCT_PACKAGES += android.hardware.bluetooth@1.1-service.btlinux
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -242,13 +234,6 @@ PRODUCT_PACKAGES += \
     android.hardware.audio.effect@7.0-impl \
     android.hardware.soundtrigger@2.3-impl \
 
-# Hardware Composer HAL
-#
-PRODUCT_PACKAGES += \
-    hwcomposer.drm_meson \
-    android.hardware.drm-service.widevine \
-    android.hardware.drm-service.clearkey
-
 # CEC
 PRODUCT_PACKAGES += \
     android.hardware.tv.cec@1.0-impl \
@@ -262,14 +247,6 @@ PRODUCT_PROPERTY_OVERRIDES += ro.hdmi.device_type=4 \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl \
     frameworks/native/data/etc/android.hardware.hdmi.cec.xml:system/etc/permissions/android.hardware.hdmi.cec.xml
-
-PRODUCT_PACKAGES += \
-    gralloc.yukawa \
-    android.hardware.graphics.composer@2.2-impl \
-    android.hardware.graphics.composer@2.2-service \
-    android.hardware.graphics.allocator@2.0-service \
-    android.hardware.graphics.allocator@2.0-impl \
-    android.hardware.graphics.mapper@2.0-impl-2.1
 
 # PowerHAL
 PRODUCT_PACKAGES += \
