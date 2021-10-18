@@ -1,28 +1,42 @@
 ifeq ($(TARGET_USE_PANFROST), true)
 # mesa driver selection
 PRODUCT_SOONG_NAMESPACES += external/mesa3d
-BOARD_GPU_DRIVERS := panfrost kmsro
+BOARD_MESA3D_USES_MESON_BUILD := true
+BOARD_MESA3D_GALLIUM_DRIVERS := panfrost kmsro
 
 # OpenGL driver
 PRODUCT_PACKAGES += \
-	libGLES_mesa
+    libEGL_mesa \
+    libGLESv1_CM_mesa \
+    libGLESv2_mesa \
+    libgallium_dri \
+    libglapi \
 
-# Composer HAL for minigbm + minigbm gralloc0:
+# # Composer HAL for minigbm + minigbm gralloc0:
+# PRODUCT_PACKAGES += \
+#    android.hardware.graphics.allocator@2.0-impl \
+#    android.hardware.graphics.allocator@2.0-service \
+#    android.hardware.graphics.mapper@2.0-impl-2.1
+
+# minigbm
 PRODUCT_PACKAGES += \
-    android.hardware.graphics.allocator@2.0-impl \
-    android.hardware.graphics.allocator@2.0-service \
-    android.hardware.graphics.mapper@2.0-impl-2.1 \
     hwcomposer.drm_minigbm \
-    gralloc.minigbm
 
-# Composer passthrough HAL
-PRODUCT_PACKAGES += \
-    android.hardware.graphics.composer@2.1-impl \
-    android.hardware.graphics.composer@2.1-service \
+#    gralloc.minigbm
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.hardware.gralloc=minigbm \
     ro.hardware.hwcomposer=drm_minigbm
+
+
+# Composer passthrough HAL
+PRODUCT_PACKAGES += \
+    android.hardware.graphics.composer@2.4-service \
+    android.hardware.graphics.allocator@4.0-service.minigbm \
+    android.hardware.graphics.mapper@4.0-impl.minigbm
+
+#    android.hardware.graphics.composer@2.1-impl \
+#    android.hardware.graphics.composer@2.1-service \
 
 # Display
 PRODUCT_PACKAGES += \
