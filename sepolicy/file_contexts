@@ -21,6 +21,7 @@
 /sys/devices/platform/soc/ffe09000.usb/ff500000.usb(/.*)?        u:object_r:sysfs_suspend_stats:s0
 
 # files in /vendor
+/(vendor|system/vendor)/bin/hw/android\.hardware\.graphics\.allocator@4\.0-service\.minigbm u:object_r:hal_graphics_allocator_default_exec:s0
 /(vendor|system/vendor)/lib(64)?/hw/gralloc\.yukawa\.so u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/hw/android\.hardware\.health@2\.0-impl-2\.1-cuttlefish\.so u:object_r:same_process_hal_file:s0
 /vendor/bin/hw/lights-yukawa u:object_r:hal_light_default_exec:s0
