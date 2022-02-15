@@ -243,7 +243,7 @@ PRODUCT_PACKAGES += \
 
 # PowerHAL
 PRODUCT_PACKAGES += \
-    android.hardware.power-service.example
+    android.hardware.power-service.yukawa
 
 # PowerStats HAL
 PRODUCT_PACKAGES += \
