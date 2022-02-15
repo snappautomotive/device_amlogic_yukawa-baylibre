@@ -262,8 +262,8 @@ PRODUCT_PACKAGES += \
     sensors.yukawa \
     android.hardware.sensors@1.0-service \
     android.hardware.sensors@1.0-impl \
-    android.hardware.contexthub@1.0-service \
-    android.hardware.contexthub@1.0-impl
+    android.hardware.contexthub@1.2-service \
+    android.hardware.contexthub@1.2-impl
 
 # Nanohub tools
 PRODUCT_PACKAGES += stm32_flash nanoapp_cmd nanotool
@@ -344,6 +344,7 @@ endif
 # Copy media codecs config file
 PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/media_xml/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
+    device/amlogic/yukawa/media_xml/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_audio.xml
 
 # Enable BT Pairing with button BTN_0 (key 256)
