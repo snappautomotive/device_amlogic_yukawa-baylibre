@@ -23,7 +23,7 @@ namespace android {
 namespace hardware {
 namespace power {
 namespace impl {
-namespace example {
+namespace yukawa {
 
 const std::vector<Boost> BOOST_RANGE{ndk::enum_range<Boost>().begin(),
                                      ndk::enum_range<Boost>().end()};
@@ -63,7 +63,7 @@ ndk::ScopedAStatus Power::getHintSessionPreferredRate(int64_t* outNanoseconds) {
     return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
 }
 
-}  // namespace example
+}  // namespace yukawa
 }  // namespace impl
 }  // namespace power
 }  // namespace hardware

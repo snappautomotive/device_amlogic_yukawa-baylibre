@@ -22,10 +22,10 @@ package {
 }
 
 cc_binary {
-    name: "android.hardware.power-service.example",
+    name: "android.hardware.power-service.yukawa",
     relative_install_path: "hw",
-    init_rc: [":android.hardware.power.rc"],
-    vintf_fragments: [":android.hardware.power.xml"],
+    init_rc: [":android.hardware.power.yukawa.rc"],
+    vintf_fragments: [":android.hardware.power.yukawa.xml"],
     vendor: true,
     shared_libs: [
         "libbase",
@@ -39,11 +39,11 @@ cc_binary {
 }
 
 filegroup {
-    name: "android.hardware.power.xml",
-    srcs: ["power-default.xml"],
+    name: "android.hardware.power.yukawa.xml",
+    srcs: ["power-yukawa.xml"],
 }
 
 filegroup {
-    name: "android.hardware.power.rc",
-    srcs: ["power-default.rc"],
+    name: "android.hardware.power.yukawa.rc",
+    srcs: ["power-yukawa.rc"],
 }

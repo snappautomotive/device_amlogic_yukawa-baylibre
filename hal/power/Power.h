@@ -23,7 +23,7 @@ namespace android {
 namespace hardware {
 namespace power {
 namespace impl {
-namespace example {
+namespace yukawa {
 
 class Power : public BnPower {
     ndk::ScopedAStatus setMode(Mode type, bool enabled) override;
@@ -37,7 +37,7 @@ class Power : public BnPower {
     ndk::ScopedAStatus getHintSessionPreferredRate(int64_t* outNanoseconds) override;
 };
 
-}  // namespace example
+}  // namespace yukawa
 }  // namespace impl
 }  // namespace power
 }  // namespace hardware

@@ -20,7 +20,7 @@
 #include <android/binder_manager.h>
 #include <android/binder_process.h>
 
-using aidl::android::hardware::power::impl::example::Power;
+using aidl::android::hardware::power::impl::yukawa::Power;
 
 int main() {
     ABinderProcess_setThreadPoolMaxThreadCount(0);
