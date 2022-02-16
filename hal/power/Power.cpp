@@ -18,6 +18,9 @@
 
 #include <android-base/logging.h>
 
+#include <fstream>
+#include <iostream>
+
 namespace aidl {
 namespace android {
 namespace hardware {
@@ -27,16 +30,59 @@ namespace yukawa {
 
 const std::vector<Boost> BOOST_RANGE{ndk::enum_range<Boost>().begin(),
                                      ndk::enum_range<Boost>().end()};
-const std::vector<Mode> MODE_RANGE{ndk::enum_range<Mode>().begin(), ndk::enum_range<Mode>().end()};
+const std::vector<Mode> SUPPORTED_MODES{
+    Mode::LOW_POWER,
+    Mode::FIXED_PERFORMANCE,
+    Mode::INTERACTIVE,
+    Mode::DEVICE_IDLE,
+    Mode::DISPLAY_INACTIVE,
+};
+
+constexpr char kSysfsGovernor[] = "/sys/devices/system/cpu/cpufreq/policy0/scaling_governor";
+
+void Power::setScalingGovernor(const std::string& policy) {
+    std::ofstream sysfs;
+    sysfs.exceptions(std::ios_base::failbit | std::ios_base::badbit);
+    sysfs.open(kSysfsGovernor);
+    sysfs << policy;
+    sysfs.close();  // call close here to flush and trigger exception if write permission fails
+}
 
 ndk::ScopedAStatus Power::setMode(Mode type, bool enabled) {
     LOG(VERBOSE) << "Power setMode: " << static_cast<int32_t>(type) << " to: " << enabled;
+    switch (type) {
+        case Mode::LOW_POWER:
+            [[fallthrough]];
+        case Mode::DEVICE_IDLE:
+            [[fallthrough]];
+        case Mode::DISPLAY_INACTIVE:
+            if (enabled) {
+                setScalingGovernor("powersave");
+            } else {
+                setScalingGovernor("schedutil");
+            }
+            break;
+        case Mode::FIXED_PERFORMANCE:
+            [[fallthrough]];
+        case Mode::INTERACTIVE:
+            if (enabled) {
+                setScalingGovernor("schedutil");
+            } else {
+                setScalingGovernor("powersave");
+            }
+            break;
+        default:
+            break;
+    }
+
     return ndk::ScopedAStatus::ok();
 }
 
 ndk::ScopedAStatus Power::isModeSupported(Mode type, bool* _aidl_return) {
     LOG(INFO) << "Power isModeSupported: " << static_cast<int32_t>(type);
-    *_aidl_return = type >= MODE_RANGE.front() && type <= MODE_RANGE.back();
+    auto mode = std::find(std::begin(SUPPORTED_MODES), std::end(SUPPORTED_MODES), type);
+
+    *_aidl_return = mode != std::end(SUPPORTED_MODES);
     return ndk::ScopedAStatus::ok();
 }
 

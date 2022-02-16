@@ -35,6 +35,8 @@ class Power : public BnPower {
                                          int64_t durationNanos,
                                          std::shared_ptr<IPowerHintSession>* _aidl_return) override;
     ndk::ScopedAStatus getHintSessionPreferredRate(int64_t* outNanoseconds) override;
+
+    void setScalingGovernor(const std::string& policy);
 };
 
 }  // namespace yukawa
