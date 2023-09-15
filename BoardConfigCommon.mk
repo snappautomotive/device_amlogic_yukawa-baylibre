@@ -92,7 +92,7 @@ ifeq ($(TARGET_USE_AB_SLOT), true)
 TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.yukawa.avb.ab
 else
 TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.recovery.yukawa.avb
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 33554432
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 39845888
 endif
 BOARD_AVB_RECOVERY_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
 BOARD_AVB_RECOVERY_ALGORITHM := SHA256_RSA2048
@@ -103,7 +103,7 @@ ifeq ($(TARGET_USE_AB_SLOT), true)
 TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.yukawa
 else
 TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.recovery.yukawa
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 33554432
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 39845888
 endif
 endif
 
@@ -151,6 +151,7 @@ USE_E2FSPROGS := true
 BOARD_USES_GENERIC_AUDIO := false
 BOARD_USES_ALSA_AUDIO := true
 TARGET_USES_MKE2FS := true
+BOARD_USES_DRM_HWCOMPOSER := true
 TARGET_USES_HWC2 := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/amlogic/yukawa/bluetooth
 

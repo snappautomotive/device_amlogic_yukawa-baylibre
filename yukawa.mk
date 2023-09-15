@@ -7,7 +7,11 @@ PRODUCT_NAME := yukawa
 PRODUCT_DEVICE := yukawa
 
 ifndef TARGET_KERNEL_USE
+ifeq ($(TARGET_USE_PANFROST),true)
+TARGET_KERNEL_USE := 6.1-panfrost
+else
 TARGET_KERNEL_USE := 5.10
+endif
 endif
 
 MOD_DIR := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)

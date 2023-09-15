@@ -1,11 +1,17 @@
 ifeq ($(TARGET_USE_PANFROST), true)
 # mesa driver selection
+BOARD_GPU_DRIVERS := panfrost
 PRODUCT_SOONG_NAMESPACES += external/mesa3d
 BOARD_MESA3D_USES_MESON_BUILD := true
+# (for old Mesa version, drop when new Mesa is confirmed working)
 BOARD_MESA3D_GALLIUM_DRIVERS := panfrost kmsro
+BOARD_MESA3D_VULKAN_DRIVERS := panvk
+
+BOARD_USES_DRM_HWCOMPOSER := true
 
 # OpenGL driver
 PRODUCT_PACKAGES += \
+    libGLES_mesa \
     libEGL_mesa \
     libGLESv1_CM_mesa \
     libGLESv2_mesa \
@@ -20,23 +26,26 @@ PRODUCT_PACKAGES += \
 
 # minigbm
 PRODUCT_PACKAGES += \
-    hwcomposer.drm_minigbm \
+	hwcomposer.drm \
+	gralloc.minigbm \
+	vulkan.panvk
+#    hwcomposer.drm_minigbm \
 
 #    gralloc.minigbm
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.hardware.gralloc=minigbm \
-    ro.hardware.hwcomposer=drm_minigbm
+    ro.hardware.hwcomposer=drm \
+    ro.hardware.vulkan=panvk
+#    ro.hardware.hwcomposer=drm_minigbm
 
 
 # Composer passthrough HAL
 PRODUCT_PACKAGES += \
-    android.hardware.graphics.composer@2.4-service \
+    android.hardware.graphics.composer@2.1-impl \
+    android.hardware.graphics.composer@2.1-service \
     android.hardware.graphics.allocator@4.0-service.minigbm \
     android.hardware.graphics.mapper@4.0-impl.minigbm
-
-#    android.hardware.graphics.composer@2.1-impl \
-#    android.hardware.graphics.composer@2.1-service \
 
 # Display
 PRODUCT_PACKAGES += \
