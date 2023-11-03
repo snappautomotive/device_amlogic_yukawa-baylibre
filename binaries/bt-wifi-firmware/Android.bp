@@ -1,0 +1,43 @@
+prebuilt_firmware {
+    name: "yukawa_brcmfmac4359-sdio.bin",
+    src: "brcmfmac4359-sdio.bin",
+    sub_dir: "brcm",
+    filename: "brcmfmac4359-sdio.bin",
+    proprietary: true,
+}
+
+prebuilt_firmware {
+    name: "yukawa_brcmfmac4359-sdio.txt",
+    src: "brcmfmac4359-sdio.txt",
+    sub_dir: "brcm",
+    filename: "brcmfmac4359-sdio.txt",
+    proprietary: true,
+}
+
+install_symlink {
+    name: "yukawa_brcmfmac4359_vim3l_bin",
+    installed_location: "firmware/brcm/brcmfmac4359-sdio.khadas-vim3l.bin",
+    symlink_target: "/vendor/firmware/brcm/brcmfmac4359-sdio.bin",
+    proprietary: true,
+}
+
+install_symlink {
+    name: "yukawa_brcmfmac4359_vim3l_txt",
+    installed_location: "firmware/brcm/brcmfmac4359-sdio.khadas-vim3l.txt",
+    symlink_target: "/vendor/firmware/brcm/brcmfmac4359-sdio.txt",
+    proprietary: true,
+}
+
+install_symlink {
+    name: "yukawa_brcmfmac4359_vim3_bin",
+    installed_location: "firmware/brcm/brcmfmac4359-sdio.khadas-vim3.bin",
+    symlink_target: "/vendor/firmware/brcm/brcmfmac4359-sdio.bin",
+    proprietary: true,
+}
+
+install_symlink {
+    name: "yukawa_brcmfmac4359_vim3_txt",
+    installed_location: "firmware/brcm/brcmfmac4359-sdio.khadas-vim3.txt",
+    symlink_target: "/vendor/firmware/brcm/brcmfmac4359-sdio.txt",
+    proprietary: true,
+}
