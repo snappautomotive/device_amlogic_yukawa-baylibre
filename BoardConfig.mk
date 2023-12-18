@@ -142,6 +142,10 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/amlogic/yukawa/bluetooth
 BOARD_SEPOLICY_DIRS += \
         device/amlogic/yukawa/sepolicy
 
+# USB Hal
+BOARD_SEPOLICY_DIRS += \
+        hardware/amlogic/yukawa/usb/1.2/sepolicy
+
 DEVICE_MANIFEST_FILE += device/amlogic/yukawa/manifest.xml
 
 DEVICE_MATRIX_FILE := device/amlogic/yukawa/compatibility_matrix.xml
