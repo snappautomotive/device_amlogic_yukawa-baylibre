@@ -11,11 +11,17 @@ PRODUCT_COPY_FILES +=  $(LOCAL_KERNEL):kernel
 # Build and run only ART
 PRODUCT_RUNTIMES := runtime_libart_default
 
-# Enable updating of APEXes
-$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
+# Enable userspace reboot
+$(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
 
-# Enable Scoped Storage related
-$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
+# Enable Virtual A/B
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/android_t_baseline.mk)
+PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
+
+$(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+
+# Installs gsi keys into ramdisk, to boot a developer GSI with verified boot.
+$(call inherit-product, $(SRC_TARGET_DIR)/product/developer_gsi_keys.mk)
 
 DEVICE_PACKAGE_OVERLAYS := device/amlogic/yukawa/overlay
 ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
@@ -59,9 +65,6 @@ PRODUCT_PACKAGES += \
     android.hardware.boot@1.2-impl.recovery \
     android.hardware.boot@1.2-service \
     bootctrl.default
-
-# System RO FS Type
-TARGET_RO_FILE_SYSTEM_TYPE ?= ext4
 
 # Dynamic partitions
 PRODUCT_BUILD_SUPER_PARTITION := true
@@ -160,25 +163,6 @@ PRODUCT_PACKAGES +=  vulkan.yukawa.so
 
 # Bluetooth
 PRODUCT_PACKAGES += android.hardware.bluetooth-service.default
-PRODUCT_PROPERTY_OVERRIDES += \
-    bluetooth.core.gap.le.privacy.enabled=false \
-    bluetooth.profile.asha.central.enabled=true \
-    bluetooth.profile.a2dp.source.enabled=true \
-    bluetooth.profile.avrcp.target.enabled=true \
-    bluetooth.profile.bap.broadcast.assist.enabled=true \
-    bluetooth.profile.bap.unicast.client.enabled=true \
-    bluetooth.profile.bas.client.enabled=true \
-    bluetooth.profile.ccp.server.enabled=true \
-    bluetooth.profile.csip.set_coordinator.enabled=true \
-    bluetooth.profile.gatt.enabled=true \
-    bluetooth.profile.hap.client.enabled=true \
-    bluetooth.profile.hfp.ag.enabled=true \
-    bluetooth.profile.hid.host.enabled=true \
-    bluetooth.profile.mcp.server.enabled=true \
-    bluetooth.profile.opp.enabled=true \
-    bluetooth.profile.pan.nap.enabled=true \
-    bluetooth.profile.pan.panu.enabled=true \
-    bluetooth.profile.vcp.controller.enabled=true
 
 # Wifi
 PRODUCT_PACKAGES += libwpa_client wpa_supplicant hostapd wificond wpa_cli
