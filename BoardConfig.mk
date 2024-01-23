@@ -159,7 +159,10 @@ BOARD_SEPOLICY_DIRS += \
 
 DEVICE_MANIFEST_FILE += device/amlogic/yukawa/manifest.xml
 
-DEVICE_MATRIX_FILE := device/amlogic/yukawa/compatibility_matrix.xml
+DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += device/amlogic/yukawa/framework_compatibility_matrix.xml
+ifneq ($(TARGET_USE_TABLET_LAUNCHER), true)
+DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += device/amlogic/yukawa/tv_framework_compatibility_matrix.xml
+endif
 
 ifneq ($(TARGET_SENSOR_MEZZANINE),)
 DEVICE_MANIFEST_FILE += device/amlogic/yukawa/sensorhal/manifest.xml

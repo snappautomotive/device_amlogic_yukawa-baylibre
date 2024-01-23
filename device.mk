@@ -204,6 +204,10 @@ DEVICE_PACKAGE_OVERLAYS += \
     device/amlogic/yukawa/hal/audio/overlay_hdmi_only
 TARGET_USE_HDMI_AUDIO ?= true
 
+# CAS AIDL HAL
+PRODUCT_PACKAGES += \
+    android.hardware.cas-service.example
+
 # Graphics #
 #
 PRODUCT_PROPERTY_OVERRIDES += ro.sf.lcd_density=320
@@ -222,8 +226,8 @@ PRODUCT_PACKAGES +=  vulkan.yukawa.so
 
 PRODUCT_PACKAGES += \
     gralloc.yukawa \
-    android.hardware.graphics.composer@2.2-impl \
-    android.hardware.graphics.composer@2.2-service \
+    android.hardware.graphics.composer@2.4-impl \
+    android.hardware.graphics.composer@2.4-service \
     android.hardware.graphics.allocator@2.0-service \
     android.hardware.graphics.allocator@2.0-impl \
     android.hardware.graphics.mapper@2.0-impl-2.1
@@ -257,7 +261,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl
 
 # Thermal HAL
-PRODUCT_PACKAGES += android.hardware.thermal@2.0-service.mock
+PRODUCT_PACKAGES += android.hardware.thermal-service.example
 
 # PowerHAL
 PRODUCT_PACKAGES += \
@@ -351,8 +355,8 @@ PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/media_xml/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml
 
 # Enable USB Camera
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.7-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.7-external-service
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.5-impl
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.5-external-service
 PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/hal/camera/external_camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/external_camera_config.xml
 
