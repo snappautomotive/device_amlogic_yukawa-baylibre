@@ -370,3 +370,5 @@ $(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk
 PRODUCT_COPY_FILES +=  \
     device/amlogic/yukawa/bootloader/u-boot_k$(TARGET_DEV_BOARD)_ab.bin:$(TARGET_OUT)/u-boot_k$(TARGET_DEV_BOARD)_ab.bin
 
+# ro.frp.pst points to a partition that contains factory reset protection information.
+PRODUCT_VENDOR_PROPERTIES += ro.frp.pst=/dev/block/by-name/frp
