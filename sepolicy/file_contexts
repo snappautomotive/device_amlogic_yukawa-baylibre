@@ -2,6 +2,9 @@
 /dev/ttyAML0           u:object_r:console_device:s0
 /dev/mali0             u:object_r:gpu_device:s0
 /dev/dri/card0         u:object_r:gpu_device:s0
+/dev/dri/card1         u:object_r:gpu_device:s0
+/dev/dri/renderD128    u:object_r:gpu_device:s0
+/dev/dri               u:object_r:gpu_device:s0
 /dev/block/zram0       u:object_r:swap_block_device:s0
 /dev/cec0              u:object_r:cec_device:s0
 /dev/i2c-0             u:object_r:led_device:s0
