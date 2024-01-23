@@ -21,3 +21,6 @@ subsystem usbmisc
 /dev/video1               0660   system     camera
 /dev/video2               0660   system     camera
 /dev/video3               0660   system     camera
+
+# Storage: for factory reset protection feature
+/dev/block/by-name/frp                                 0660    system       system
