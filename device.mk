@@ -61,10 +61,8 @@ PRODUCT_PACKAGES += \
 
 # Boot control
 PRODUCT_PACKAGES += \
-    android.hardware.boot@1.2-impl \
-    android.hardware.boot@1.2-impl.recovery \
-    android.hardware.boot@1.2-service \
-    bootctrl.default
+    android.hardware.boot-service.default \
+    android.hardware.boot-service.default_recovery
 
 # Dynamic partitions
 PRODUCT_BUILD_SUPER_PARTITION := true
@@ -72,8 +70,8 @@ PRODUCT_USE_DYNAMIC_PARTITIONS := true
 PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
 
 PRODUCT_PACKAGES += \
-	android.hardware.fastboot@1.0 \
-	android.hardware.fastboot@1.0-impl-mock \
+	android.hardware.fastboot@1.1 \
+	android.hardware.fastboot@1.1-impl-mock \
 	fastbootd
 
 
@@ -90,8 +88,8 @@ PRODUCT_COPY_FILES += \
 endif
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/init.yukawa.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.yukawa.rc \
-    $(LOCAL_PATH)/init.yukawa.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.yukawa.usb.rc \
+    $(LOCAL_PATH)/init.yukawa.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.yukawa.rc \
+    $(LOCAL_PATH)/init.yukawa.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.yukawa.usb.rc \
     $(LOCAL_PATH)/init.recovery.hardware.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.yukawa.rc \
     $(LOCAL_PATH)/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc
 
@@ -159,7 +157,8 @@ PRODUCT_COPY_FILES += \
 
 # Build default bluetooth a2dp and usb audio HALs
 PRODUCT_PACKAGES += \
-    android.hardware.bluetooth.audio@2.0-impl \
+    android.hardware.bluetooth.audio@2.1-impl \
+    android.hardware.bluetooth.audio-impl \
     audio.usb.default \
     audio.primary.yukawa \
     audio.r_submix.default \
@@ -183,7 +182,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     android.hardware.audio.service \
-    android.hardware.audio@7.0-impl \
+    android.hardware.audio@7.1-impl \
     android.hardware.audio.effect@7.0-impl \
     android.hardware.soundtrigger@2.3-impl
 
@@ -205,6 +204,10 @@ DEVICE_PACKAGE_OVERLAYS += \
     device/amlogic/yukawa/hal/audio/overlay_hdmi_only
 TARGET_USE_HDMI_AUDIO ?= true
 
+# CAS AIDL HAL
+PRODUCT_PACKAGES += \
+    android.hardware.cas-service.example
+
 # Graphics #
 #
 PRODUCT_PROPERTY_OVERRIDES += ro.sf.lcd_density=320
@@ -223,8 +226,8 @@ PRODUCT_PACKAGES +=  vulkan.yukawa.so
 
 PRODUCT_PACKAGES += \
     gralloc.yukawa \
-    android.hardware.graphics.composer@2.2-impl \
-    android.hardware.graphics.composer@2.2-service \
+    android.hardware.graphics.composer@2.4-impl \
+    android.hardware.graphics.composer@2.4-service \
     android.hardware.graphics.allocator@2.0-service \
     android.hardware.graphics.allocator@2.0-impl \
     android.hardware.graphics.mapper@2.0-impl-2.1
@@ -242,6 +245,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.hardware.gralloc=yukawa
 
+# Create input surface on the framework side
+PRODUCT_VENDOR_PROPERTIES += \
+    debug.stagefright.c2inputsurface=-1
+
+PRODUCT_VENDOR_PROPERTIES += \
+	ro.opengles.version=196610
+
 # DRM Service
 PRODUCT_PACKAGES += \
     android.hardware.drm-service.widevine \
@@ -249,6 +259,9 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl
+
+# Thermal HAL
+PRODUCT_PACKAGES += android.hardware.thermal-service.example
 
 # PowerHAL
 PRODUCT_PACKAGES += \
@@ -260,8 +273,12 @@ PRODUCT_PACKAGES += \
 
 # Health: Install default binderized implementation to vendor.
 PRODUCT_PACKAGES += \
-    android.hardware.health@2.1-impl-cuttlefish \
-    android.hardware.health@2.1-service
+    android.hardware.health-service.example \
+    android.hardware.health-service.example_recovery
+
+# Health Storage
+PRODUCT_PACKAGES += \
+    android.hardware.health.storage-service.default
 
 # Sensor HAL
 ifneq ($(TARGET_SENSOR_MEZZANINE),)
@@ -305,13 +322,10 @@ PRODUCT_COPY_FILES += \
 endif
 endif
 
-# Software Gatekeeper HAL
+# Software Security HAL
 PRODUCT_PACKAGES += \
-    android.hardware.gatekeeper@1.0-service.software
-
-PRODUCT_PACKAGES += \
-    android.hardware.keymaster@3.0-impl \
-    android.hardware.keymaster@3.0-service
+    android.hardware.gatekeeper@1.0-service.software \
+    android.hardware.security.keymint-service
 
 # USB
 PRODUCT_PACKAGES += \
@@ -341,8 +355,8 @@ PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/media_xml/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml
 
 # Enable USB Camera
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-external-service
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.5-impl
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.5-external-service
 PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/hal/camera/external_camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/external_camera_config.xml
 
