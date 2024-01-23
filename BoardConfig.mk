@@ -15,7 +15,15 @@ TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a53
 
-TARGET_SUPPORTS_64_BIT_APPS := true
+# Required flag for non-64 bit devices from P.
+TARGET_USES_64_BIT_BINDER := true
+
+# 64 bit mediadrmserver
+TARGET_ENABLE_MEDIADRM_64 := true
+
+# Puts odex files on system_other, as well as causing dex files not to get
+# stripped from APKs.
+BOARD_USES_SYSTEM_OTHER_ODEX := true
 
 TARGET_BOARD_PLATFORM := yukawa
 TARGET_BOOTLOADER_BOARD_NAME := $(TARGET_DEV_BOARD)
@@ -136,10 +144,9 @@ endif
 BOARD_USES_GENERIC_AUDIO := false
 BOARD_USES_ALSA_AUDIO := true
 
-TARGET_USES_MKE2FS := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/amlogic/yukawa/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := build/make/target/board/mainline_arm64/bluetooth
 
-BOARD_SEPOLICY_DIRS += \
+BOARD_VENDOR_SEPOLICY_DIRS += \
         device/amlogic/yukawa/sepolicy
 
 # USB Hal
@@ -156,3 +163,12 @@ endif
 
 # Generate an APEX image for experiment b/119800099.
 DEXPREOPT_GENERATE_APEX_IMAGE := true
+
+# Disable Jack build system due deprecated status (https://source.android.com/source/jack)
+ANDROID_COMPILE_WITH_JACK ?= false
+
+# Enable system property split for Treble
+BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
+
+# Include stats logging code in LMKD
+TARGET_LMKD_STATS_LOG := true
