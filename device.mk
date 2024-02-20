@@ -105,11 +105,6 @@ ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
 # Use Launcher3QuickStep
 PRODUCT_PACKAGES += Launcher3QuickStep
 else
-ifeq ($(TARGET_USE_SAMPLE_LAUNCHER), true)
-PRODUCT_PACKAGES += \
-    TvSampleLeanbackLauncher
-endif
-
 # CEC
 PRODUCT_PACKAGES += \
     android.hardware.tv.cec@1.0-impl \
@@ -132,8 +127,10 @@ PRODUCT_PACKAGES += \
     com.android.media.tv.remoteprovider \
     InputDevices
 
+# Fallback IME and Home apps
 PRODUCT_PACKAGES += \
-    LeanbackIME
+    LeanbackIME \
+    TvSampleLeanbackLauncher
 
 ifeq ($(TARGET_PRODUCT), yukawa_gms)
 PRODUCT_PACKAGES += \
