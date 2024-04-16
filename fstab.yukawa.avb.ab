@@ -1,4 +1,4 @@
-system                                                    /system         ext4    ro,barrier=1                              wait,logical,first_stage_mount,slotselect,avb=vbmeta_system
+system                                                    /system         ext4    ro,barrier=1                              wait,logical,first_stage_mount,slotselect,avb=vbmeta
 vendor                                                    /vendor         ext4    ro,barrier=1                              wait,logical,first_stage_mount,slotselect,avb=vbmeta
 /dev/block/platform/soc/ffe07000.mmc/by-name/boot         /boot           emmc    defaults                                  recoveryonly,slotselect,first_stage_mount,avb=boot
 /dev/block/platform/soc/ffe07000.mmc/by-name/metadata     /metadata       ext4    noatime,nosuid,nodev,discard,sync         wait,check,formattable,first_stage_mount
