@@ -1,5 +1,24 @@
 PRODUCT_SOONG_NAMESPACES += device/amlogic/yukawa
 
+# Check vendor package version
+include device/amlogic/yukawa/vendor-package-ver.mk
+ifneq (,$(wildcard $(YUKAWA_VENDOR_PATH)/gpu/$(EXPECTED_YUKAWA_VENDOR_VERSION)/version.mk))
+  # Unfortunately inherit-product doesn't export build variables from the
+  # called make file to the caller, so we have to include it directly here.
+  include $(YUKAWA_VENDOR_PATH)/gpu/$(EXPECTED_YUKAWA_VENDOR_VERSION)/version.mk
+  ifneq ($(TARGET_YUKAWA_VENDOR_VERSION), $(EXPECTED_YUKAWA_VENDOR_VERSION))
+    $(warning TARGET_YUKAWA_VENDOR_VERSION ($(TARGET_YUKAWA_VENDOR_VERSION)) does not match. Exiting the build.)
+    $(warning Please download and extract the new binaries by running the following script:)
+    $(warning    ./device/amlogic/yukawa/fetch-vendor-package.sh )
+    $(error Wrong vendor package version detected - Expected vendor package version: $(EXPECTED_YUKAWA_VENDOR_VERSION))
+  endif
+else
+  $(warning Missing yukawa vendor package!)
+  $(warning Please download and extract the vendor binaries by running the following script:)
+  $(warning    ./device/amlogic/yukawa/fetch-vendor-package.sh )
+  $(error Vendor package not found)
+endif
+
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 LOCAL_KERNEL := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)/Image.lz4
 else
