@@ -19,6 +19,11 @@ else
   $(error Vendor package not found)
 endif
 
+# inherit bootloader and video_firmware from vendor package
+$(call inherit-product, $(YUKAWA_VENDOR_PATH)/bootloader/$(EXPECTED_YUKAWA_VENDOR_VERSION)/vendor.mk)
+$(call inherit-product, $(YUKAWA_VENDOR_PATH)/video_firmware/$(EXPECTED_YUKAWA_VENDOR_VERSION)/vendor.mk)
+$(call inherit-product, $(YUKAWA_VENDOR_PATH)/bt-wifi-firmware/$(EXPECTED_YUKAWA_VENDOR_VERSION)/vendor.mk)
+
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 LOCAL_KERNEL := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)/Image.lz4
 else
@@ -112,13 +117,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/init.recovery.hardware.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.yukawa.rc \
     $(LOCAL_PATH)/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc
 
-# BT and Wifi FW
-PRODUCT_PACKAGES += \
-    yukawa_brcmfmac4359-sdio.bin \
-    yukawa_brcmfmac4359-sdio.txt \
-    yukawa_brcmfmac4359_vim3l_bin \
-    yukawa_brcmfmac4359_vim3l_txt
-
 
 ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
 # Use Launcher3QuickStep
@@ -187,17 +185,6 @@ PRODUCT_PACKAGES += \
     tinymix \
     tinypcminfo \
     cplay
-
-# Video
-PRODUCT_COPY_FILES += \
-    $(YUKAWA_VENDOR_PATH)/video_firmware/$(EXPECTED_YUKAWA_VENDOR_VERSION)/g12a_h264.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/g12a_h264.bin \
-    $(YUKAWA_VENDOR_PATH)/video_firmware/$(EXPECTED_YUKAWA_VENDOR_VERSION)/g12a_hevc_mmu.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/g12a_hevc_mmu.bin \
-    $(YUKAWA_VENDOR_PATH)/video_firmware/$(EXPECTED_YUKAWA_VENDOR_VERSION)/g12a_vp9.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/g12a_vp9.bin \
-    $(YUKAWA_VENDOR_PATH)/video_firmware/$(EXPECTED_YUKAWA_VENDOR_VERSION)/gxl_mpeg4_5.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/gxl_mpeg4_5.bin \
-    $(YUKAWA_VENDOR_PATH)/video_firmware/$(EXPECTED_YUKAWA_VENDOR_VERSION)/gxl_mpeg12.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/gxl_mpeg12.bin \
-    $(YUKAWA_VENDOR_PATH)/video_firmware/$(EXPECTED_YUKAWA_VENDOR_VERSION)/gxl_mjpeg.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/gxl_mjpeg.bin \
-    $(YUKAWA_VENDOR_PATH)/video_firmware/$(EXPECTED_YUKAWA_VENDOR_VERSION)/sm1_hevc_mmu.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/sm1_hevc_mmu.bin \
-    $(YUKAWA_VENDOR_PATH)/video_firmware/$(EXPECTED_YUKAWA_VENDOR_VERSION)/sm1_vp9_mmu.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/sm1_vp9_mmu.bin
 
 PRODUCT_PACKAGES += \
     android.hardware.audio.service \
@@ -385,10 +372,6 @@ PRODUCT_COPY_FILES +=  \
 
 # Include Virtualization APEX
 $(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk)
-
-# Bootloaders binaries
-PRODUCT_COPY_FILES +=  \
-    $(YUKAWA_VENDOR_PATH)/bootloader/$(EXPECTED_YUKAWA_VENDOR_VERSION)/u-boot_k$(TARGET_DEV_BOARD)_ab.bin:$(TARGET_OUT)/u-boot_k$(TARGET_DEV_BOARD)_ab.bin
 
 # ro.frp.pst points to a partition that contains factory reset protection information.
 PRODUCT_VENDOR_PROPERTIES += ro.frp.pst=/dev/block/by-name/frp
