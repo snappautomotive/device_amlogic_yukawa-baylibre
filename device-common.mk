@@ -1,7 +1,7 @@
 PRODUCT_SOONG_NAMESPACES += device/amlogic/yukawa
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)/Image.lz4
+LOCAL_KERNEL := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)/Image
 else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
