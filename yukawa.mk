@@ -28,18 +28,13 @@ BOARD_VENDOR_RAMDISK_KERNEL_MODULES += \
   $(MOD_DIR)/axg-audio.ko \
   $(MOD_DIR)/axg-aoclk.ko \
   $(MOD_DIR)/clk-cpu-dyndiv.ko \
-  $(MOD_DIR)/clk-regmap.ko \
   $(MOD_DIR)/clk-phase.ko \
   $(MOD_DIR)/gxbb-aoclk.ko \
-  $(MOD_DIR)/clk-dualdiv.ko \
-  $(MOD_DIR)/clk-pll.ko \
-  $(MOD_DIR)/clk-mpll.ko \
   $(MOD_DIR)/meson-eeclk.ko \
   $(MOD_DIR)/sclk-div.ko \
   $(MOD_DIR)/g12a-aoclk.ko \
   $(MOD_DIR)/g12a.ko \
   $(MOD_DIR)/meson-aoclk.ko \
-  $(MOD_DIR)/vid-pll-div.ko \
   $(MOD_DIR)/gxbb.ko
 
 # pinctrl
