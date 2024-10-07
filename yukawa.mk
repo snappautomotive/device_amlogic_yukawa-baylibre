@@ -34,6 +34,7 @@ BOARD_VENDOR_RAMDISK_KERNEL_MODULES += \
   $(MOD_DIR)/sclk-div.ko \
   $(MOD_DIR)/g12a-aoclk.ko \
   $(MOD_DIR)/g12a.ko \
+  $(MOD_DIR)/vclk.ko \
   $(MOD_DIR)/meson-aoclk.ko \
   $(MOD_DIR)/gxbb.ko
 
@@ -73,6 +74,7 @@ BOARD_VENDOR_RAMDISK_KERNEL_MODULES += \
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD += \
   $(MOD_DIR)/g12a_aoclk.ko \
   $(MOD_DIR)/g12a.ko \
+  $(MOD_DIR)/vclk.ko \
   $(MOD_DIR)/meson-eeclk.ko \
   $(MOD_DIR)/pinctrl-meson-g12a.ko \
   $(MOD_DIR)/reset-meson.ko \
