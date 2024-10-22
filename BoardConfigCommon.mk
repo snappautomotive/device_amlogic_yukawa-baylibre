@@ -88,7 +88,7 @@ ifeq ($(TARGET_USE_AB_SLOT), true)
 TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.yukawa.avb.ab
 else
 TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.recovery.yukawa.avb
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 33554432
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
 endif
 BOARD_AVB_RECOVERY_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
 BOARD_AVB_RECOVERY_ALGORITHM := SHA256_RSA2048
