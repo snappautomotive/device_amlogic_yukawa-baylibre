@@ -5,4 +5,3 @@ allow domain cec_device:chr_file rw_file_perms;
 type led_device, dev_type;
 
 type vbmeta_block_device, dev_type;
-type dtbo_block_device, dev_type;
