@@ -66,6 +66,7 @@ endif
 # inherit binaries from the vendor package
 $(call inherit-product, $(YUKAWA_VENDOR_PATH)/bt-wifi-firmware/$(EXPECTED_YUKAWA_VENDOR_VERSION)/vendor.mk)
 $(call inherit-product, $(YUKAWA_VENDOR_PATH)/video_firmware/$(EXPECTED_YUKAWA_VENDOR_VERSION)/vendor.mk)
+$(call inherit-product, $(YUKAWA_VENDOR_PATH)/bootloader/$(EXPECTED_YUKAWA_VENDOR_VERSION)/vendor.mk)
 
 # A/B support
 PRODUCT_PACKAGES += \
