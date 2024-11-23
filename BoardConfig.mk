@@ -81,7 +81,13 @@ TARGET_USE_DYNAMIC_PARTITIONS := true
 BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
 BOARD_SUPER_PARTITION_GROUPS := db_dynamic_partitions
 BOARD_DB_DYNAMIC_PARTITIONS_PARTITION_LIST := system vendor
+ifeq ($(TARGET_VIM3_PRO_VARIANT), true)
+# 8GB for VIM3 Pro
+BOARD_SUPER_PARTITION_SIZE := $(shell echo $$(( 8192 * 1024 * 1024 )))
+else
+# 3GB for VIM3
 BOARD_SUPER_PARTITION_SIZE := $(shell echo $$(( 3072 * 1024 * 1024 )))
+endif
 BOARD_DB_DYNAMIC_PARTITIONS_SIZE := $(shell echo $$(( $(BOARD_SUPER_PARTITION_SIZE)/2 - (10 * 1024 * 1024) )))  # Reserve 10M for DAP metadata
 
 # Creates metadata partition mount point under root for
@@ -92,7 +98,13 @@ BOARD_USES_METADATA_PARTITION := true
 TARGET_COPY_OUT_DATA := data
 TARGET_USERIMAGES_USE_F2FS := true
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
+ifeq ($(TARGET_VIM3_PRO_VARIANT), true)
+# 18GB for VIM3 Pro
+BOARD_USERDATAIMAGE_PARTITION_SIZE :=  $(shell echo $$(( 18000 * 1024 * 1024 )))
+else
+# 2GB for VIM3
 BOARD_USERDATAIMAGE_PARTITION_SIZE :=  $(shell echo $$(( 2000 * 1024 * 1024 )))
+endif
 TARGET_USERIMAGES_SPARSE_F2FS_DISABLED ?= false
 
 # Recovery
