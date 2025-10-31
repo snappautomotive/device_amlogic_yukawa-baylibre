@@ -55,6 +55,17 @@ PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
     ro.soc.model=$(PRODUCT_DEVICE)
 
+PRODUCT_VENDOR_PROPERTIES += \
+       bluetooth.device.class_of_device=38,4,8 \
+       bluetooth.profile.a2dp.sink.enabled=true \
+       bluetooth.profile.avrcp.controller.enabled=true \
+       bluetooth.profile.gatt.enabled=true \
+       bluetooth.profile.hfp.hf.enabled=true\
+       bluetooth.profile.map.client.enabled=true\
+       bluetooth.profile.pan.nap.enabled=true\
+       bluetooth.profile.pan.panu.enabled=true\
+       bluetooth.profile.pbap.client.enabled=true
+
 MOD_DIR := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)
 
 #
